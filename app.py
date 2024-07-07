@@ -1,7 +1,6 @@
 import os
 from dotenv import load_dotenv
 import openai, requests, json, time, logging
-import streamlit as st
 from datetime import datetime
 
 # Load environment variables
