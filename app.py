@@ -9,36 +9,45 @@ load_dotenv()
 
 client = openai.OpenAI()
 
-model = "gpt-4-1106-preview"
 
 # Step 1: Upload a file to Open AI embeddings
-filepath = "./IFRS17.pdf"
-file_object = client.files.create(file=open(filepath, "rb"),
-                                  purpose="assistants")
+vector_store = client.beta.vector_stores.create(name="IFRS 17 Standard")
 
-# Step 2: Create an assistant
-assistant = client.beta.assistants.create(
-    name="IFRS 17 Assistant",
-    instructions = """You are a helpful study assistant who knows a lot about understanding IFRS 17 Standard by IASB. Your role is to summarize standard, clarify terminology within context, and extract key information and formulas. Cross-reference information for additional insights and answer related questions comprehensively. Analyze the standard, key changes and where applicable. Respond to queries effectively, incorporating feedback to enhance your accuracy. Handle data securely and update your knowledge base with the latest standards and any similar research on the same. Adhere to ethical standards, respect intellectual property, and provide users with guidance on the standard. Maintain a feedback loop for continuous improvement and user support. Your ultimate goal is to facilitate a deeper understanding of complex IFRS 17 Standard material, making it more accessible and comprehensible.""",
-    tool = [{type: "retrieval"}],
-    model=model,
-    file_ids=[file_object.id]
+filepath = ["./IFRS17.pdf"]
+file_streams = [open(path, "rb") for path in filepath]
+file_batch = client.beta.vector_stores.file_batches.upload_and_poll(
+  vector_store_id=vector_store.id, files=file_streams
 )
 
+
+# Step 2: Create an assistant
+# assistant = client.beta.assistants.create(
+#     name="IFRS 17 Assistant",
+#     instructions = """You are a helpful study assistant who knows a lot about understanding IFRS 17 Standard by IASB. Your role is to summarize standard, clarify terminology within context, and extract key information and formulas. Cross-reference information for additional insights and answer related questions comprehensively. Analyze the standard, key changes and where applicable. Respond to queries effectively, incorporating feedback to enhance your accuracy. Handle data securely and update your knowledge base with the latest standards and any similar research on the same. Adhere to ethical standards, respect intellectual property, and provide users with guidance on the standard. Maintain a feedback loop for continuous improvement and user support. Your ultimate goal is to facilitate a deeper understanding of complex IFRS 17 Standard material, making it more accessible and comprehensible.""",
+#     tools = [{"type": "file_search"}],
+#     model="gpt-3.5-turbo",
+#     tool_resources={"file_search": {"vector_store_ids": [vector_store.id]}}
+# )
+
 # Get the Assistant ID
-asiss_id = assistant.id
-print(asiss_id)
+# assis_id = assistant.id
+# print(assis_id)
 
 # Hardcoded ids to be used once the first code run is done and the assistant was created
-thread_id = None
-assiss_id = None
+thread_id = "thread_8vabjTGKk7oM9N74wVxplnUN"
+assis_id = "asst_NPCGFdjAhVd5UuJ5nieCF7HV"
 
 # == Step 3. Create a Thread
-message = "What is mining?"
+message = "What is IFRS 17?"
+message = client.beta.threads.messages.create(
+    thread_id=thread_id,
+    role="user", 
+    content=message
+)
 
-thread = client.beta.threads.create()
-thread_id = thread.id
-print(thread_id)
+# thread = client.beta.threads.create()
+# thread_id = thread.id
+# print(thread_id)
 
 # message = client.beta.threads.messages.create(
 #     thread_id=thread_id, role="user", content=message
@@ -51,7 +60,7 @@ run = client.beta.threads.runs.create(
     instructions="Please address the user as Bruce",
 )
 
-def wait_for_run_completion(client, thread_id, run_id, sleep_interval=5):
+def wait_for_run_completion(client, thread_id, run_id, sleep_interval=3):
     """
     Waits for a run to complete and prints the elapsed time.:param client: The OpenAI client object.
     :param thread_id: The ID of the thread.
@@ -83,7 +92,7 @@ def wait_for_run_completion(client, thread_id, run_id, sleep_interval=5):
 
 # Run it
 wait_for_run_completion(client=client, 
-                        thread_id=thread.id, 
+                        thread_id=thread_id, 
                         run_id=run.id)
 
 # Check the run steps LOGS
