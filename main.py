@@ -14,7 +14,7 @@ load_dotenv()
 
 client = openai.OpenAI()
 
-model = "gpt-4-1106-preview"  # "gpt-3.5-turbo-16k"
+model = "gpt-3.5-turbo" 
 
 
 # == Hardcoded ids to be used once the first code run is done and the assistant was created
