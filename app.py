@@ -1,5 +1,5 @@
 import os
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 import openai, requests, json, time, logging
 from datetime import datetime
 
@@ -35,33 +35,33 @@ assistant = client.beta.assistants.create(
 # print(assis_id)
 
 # Hardcoded ids to be used once the first code run is done and the assistant was created
-thread_id = "thread_YqVX9wUSUq9kD3rhUX1o8ejf"
-assis_id = "asst_SkhrTGeZLM1fksLtDUo9BVRQ"
+# thread_id = "thread_nGJJNmNEBewtlFbxfpe3CkJ3"
+# assis_id = "asst_iUjBR14iuscxmxVUNpYJNCMZ"
 
 # == Step 3. Create a Thread
 message_cont = "What is IFRS 17?"
-message = client.beta.threads.messages.create(
-    thread_id=thread_id,
-    role="user", 
-    content=message_cont
-)
-
-# thread = client.beta.threads.create()
-# thread_id = thread.id
-# print(thread_id)
-
 # message = client.beta.threads.messages.create(
-#     thread_id=thread_id, role="user", content=message
+#     thread_id=thread_id,
+#     role="user", 
+#     content=message_cont
 # )
+
+thread_id = client.beta.threads.create()
+thread_id = thread_id.id
+print(thread_id)
+
+message = client.beta.threads.messages.create(
+    thread_id=thread_id, role="user", content=message_cont
+)
 
 # == Run the Assistant
 run = client.beta.threads.runs.create(
     thread_id=thread_id,
     assistant_id=assis_id,
-    instructions="Please address the user as Bruce",
+    instructions="Please address the user as Walter",
 )
 
-def wait_for_run_completion(client, thread_id, run_id, sleep_interval=3):
+def wait_for_run_completion(client, thread_id, run_id, sleep_interval=5):
     """
     Waits for a run to complete and prints the elapsed time.:param client: The OpenAI client object.
     :param thread_id: The ID of the thread.
