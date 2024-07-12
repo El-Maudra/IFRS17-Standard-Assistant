@@ -34,7 +34,7 @@ assistant = client.beta.assistants.create(
 
 # Hardcoded ids to be used once the first code run is done and the assistant was created
 thread_id = "thread_YqVX9wUSUq9kD3rhUX1o8ejf"
-assis_id = "asst_kvTGIWlAWqKrUSPDMpUeksJp"
+assis_id = "asst_SkhrTGeZLM1fksLtDUo9BVRQ"
 
 # == Step 3. Create a Thread
 message_cont = "What is IFRS 17?"

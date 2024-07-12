@@ -1,2 +1,5 @@
+# Ignore .env file
 .env
+
+# Ignore model.txt file
 model.txt
