@@ -4,9 +4,11 @@ import openai, requests, json, time, logging
 from datetime import datetime
 
 # Load environment variables
-load_dotenv()
+# load_dotenv()
 
-client = openai.OpenAI()
+apiKey = "sk-proj-KxywEZhvjUWYkXLsU3RuT3BlbkFJh60Zdz0sGtySyiZG6Lsi"
+
+client = openai.OpenAI(api_key=apiKey)
 
 
 # Step 1: Upload a file to Open AI embeddings
