@@ -20,28 +20,28 @@ file_batch = client.beta.vector_stores.file_batches.upload_and_poll(
 
 
 # Step 2: Create an assistant
-# assistant = client.beta.assistants.create(
-#     name="IFRS 17 Assistant",
-#     instructions = """You are a helpful study assistant who knows a lot about understanding IFRS 17 Standard by IASB. Your role is to summarize standard, clarify terminology within context, and extract key information and formulas. Cross-reference information for additional insights and answer related questions comprehensively. Analyze the standard, key changes and where applicable. Respond to queries effectively, incorporating feedback to enhance your accuracy. Handle data securely and update your knowledge base with the latest standards and any similar research on the same. Adhere to ethical standards, respect intellectual property, and provide users with guidance on the standard. Maintain a feedback loop for continuous improvement and user support. Your ultimate goal is to facilitate a deeper understanding of complex IFRS 17 Standard material, making it more accessible and comprehensible.""",
-#     tools = [{"type": "file_search"}],
-#     model="gpt-3.5-turbo",
-#     tool_resources={"file_search": {"vector_store_ids": [vector_store.id]}}
-# )
+assistant = client.beta.assistants.create(
+    name="IFRS 17 Assistant",
+    instructions = """You are a helpful study assistant who knows a lot about understanding IFRS 17 Standard by IASB. Your role is to summarize standard, clarify terminology within context, and extract key information and formulas. Cross-reference information for additional insights and answer related questions comprehensively. Analyze the standard, key changes and where applicable. Respond to queries effectively, incorporating feedback to enhance your accuracy. Handle data securely and update your knowledge base with the latest standards and any similar research on the same. Adhere to ethical standards, respect intellectual property, and provide users with guidance on the standard. Maintain a feedback loop for continuous improvement and user support. Your ultimate goal is to facilitate a deeper understanding of complex IFRS 17 Standard material, making it more accessible and comprehensible.""",
+    tools = [{"type": "file_search"}],
+    model="gpt-3.5-turbo",
+    tool_resources={"file_search": {"vector_store_ids": [vector_store.id]}}
+)
 
 # Get the Assistant ID
 # assis_id = assistant.id
 # print(assis_id)
 
 # Hardcoded ids to be used once the first code run is done and the assistant was created
-thread_id = "thread_8vabjTGKk7oM9N74wVxplnUN"
-assis_id = "asst_NPCGFdjAhVd5UuJ5nieCF7HV"
+thread_id = "thread_YqVX9wUSUq9kD3rhUX1o8ejf"
+assis_id = "asst_kvTGIWlAWqKrUSPDMpUeksJp"
 
 # == Step 3. Create a Thread
-message = "What is IFRS 17?"
+message_cont = "What is IFRS 17?"
 message = client.beta.threads.messages.create(
     thread_id=thread_id,
     role="user", 
-    content=message
+    content=message_cont
 )
 
 # thread = client.beta.threads.create()
